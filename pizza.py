@@ -1,39 +1,46 @@
+from enum import Enum
 from typing import List
 
+class TamanhoPizza(Enum): #o enum é uma tabela fixa, só pode pedir isso q esta ai e simplifica alterações
+    BROTO = ("Broto", 25.00)
+    MEDIA = ("Média", 35.00)
+    GRANDE = ("Grande", 45.00)
+    
+    def __init__(self, descricao, preco_base):
+        self.descricao = descricao
+        self.preco_base = preco_base
+
 class Pizza():
-  nome : str
-  preco : float
-  tamanho : List
-  ingredientes : List
-  borda_rech : bool
-  meio_meio : bool
-  
-  def __init__(self, nome,preco,borda,meio):
-    self.nome = nome
-    self.preco = preco
-    self.tamanho = ['Pequena','Média','Grande']
-    self.ingredientes = []
-    self.borda_rech = borda
-    self.meio_meio = meio
+    sabor : str
+    tamanho : str
+    borda_recheada : bool
+    ingrediente : List
+
+    def __init__(self, sabor, tamanho, borda_recheada=False):
+        self.sabor = sabor
+        self.tamanho = tamanho
+        self.borda_recheada = borda_recheada
+        self.ingredientes = []
     
-class Pizzas(Pizza):
-    pizzas : List[Pizza]
-    def __init__(self):
-      self.pizzas = []
+    def adicionar_ingrediente(self, ingrediente):
+        self.ingredientes.append(ingrediente)
     
-    def adicionar_pizza(self, p: Pizza):
-      self.pizzas.append(p)
-      
-    def listar_pizzas(self):
-      return self.pizzas
+    def calcular_preco(self):
+        preco = self.tamanho.preco_base # type: ignore
+        if self.borda_recheada == True:
+            preco += 5.00
+        preco += len(self.ingredientes) * 2.00 #o len pega a quantidade dentro de uma lista, aqui esta pegando os ingredientes adicionados
+        return preco
     
-if __name__ == "__main__":
-    p1 = Pizza("Margherita", 25.0, False, False)
-    p2 = Pizza("Pepperoni", 30.0, True, False)
-    
-    cardapio = Pizzas()
-    cardapio.adicionar_pizza(p1)
-    cardapio.adicionar_pizza(p2)
-    
-    for pizza in cardapio.listar_pizzas():
-        print(f"Pizza: {pizza.nome}, Preço: {pizza.preco}")
+    def __str__(self):
+        if self.borda_recheada == True:
+            borda = "com borda recheada"
+        else:
+            borda = "sem borda recheada"
+
+        if self.ingredientes:
+            ingredientes_str = f" + {', '.join(self.ingredientes)}" #join é para colocar as virgulas caso tenha mais de um ingrediente
+        else:
+            ingredientes_str = ""
+        
+        return f"Pizza de {self.sabor} ({self.tamanho.descricao}) {borda}{ingredientes_str} - R$ {self.calcular_preco():.2f}" # type: ignore
