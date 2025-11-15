@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import List
 
-class TamanhoPizza(Enum): #o enum é uma tabela fixa, só pode pedir isso q esta ai e simplifica alterações
+class TamanhoPizza(Enum):
     BROTO = ("Broto", 25.00)
     MEDIA = ("Média", 35.00)
     GRANDE = ("Grande", 45.00)
@@ -12,9 +12,9 @@ class TamanhoPizza(Enum): #o enum é uma tabela fixa, só pode pedir isso q esta
 
 class Pizza():
     sabor : str
-    tamanho : str
+    tamanho : TamanhoPizza
     borda_recheada : bool
-    ingrediente : List
+    ingredientes : List
 
     def __init__(self, sabor, tamanho, borda_recheada=False):
         self.sabor = sabor
@@ -26,10 +26,10 @@ class Pizza():
         self.ingredientes.append(ingrediente)
     
     def calcular_preco(self):
-        preco = self.tamanho.preco_base # type: ignore
+        preco = self.tamanho.preco_base 
         if self.borda_recheada == True:
             preco += 5.00
-        preco += len(self.ingredientes) * 2.00 #o len pega a quantidade dentro de uma lista, aqui esta pegando os ingredientes adicionados
+        preco += len(self.ingredientes) * 2.00 
         return preco
     
     def __str__(self):
@@ -39,8 +39,8 @@ class Pizza():
             borda = "sem borda recheada"
 
         if self.ingredientes:
-            ingredientes_str = f" + {', '.join(self.ingredientes)}" #join é para colocar as virgulas caso tenha mais de um ingrediente
+            ingredientes_str = f" + {', '.join(self.ingredientes)}" 
         else:
             ingredientes_str = ""
         
-        return f"Pizza de {self.sabor} ({self.tamanho.descricao}) {borda}{ingredientes_str} - R$ {self.calcular_preco():.2f}" # type: ignore
+        return f"Pizza de {self.sabor} ({self.tamanho.descricao}) {borda}{ingredientes_str} - R$ {self.calcular_preco():.2f}" 

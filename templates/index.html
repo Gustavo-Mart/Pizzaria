@@ -21,7 +21,15 @@
       <div class="cardapio-grid">
         <ul>
           {% for sabor, ingredientes in pizzaria.cardapio.items() %}
-          <li><i data-lucide="pizza"></i><b>{{ sabor }}</b>: {{ ', '.join(ingredientes) }}</li>
+          <li>
+            <div class="ingredientes-pizza">
+              <i data-lucide="pizza"></i><b>{{ sabor }}</b>: {{ ', '.join(ingredientes) }}
+            </div>
+            <div class="buttons-pizza">
+              <button><i data-lucide="check"></i></button>
+              <button><i data-lucide="X"></i></button>
+            </div>
+          </li>
           {% endfor %}
         </ul>
       </div>
@@ -31,23 +39,44 @@
       <div class="cardapio-grid">
         <ul>
           {% for sabor, ingredientes in pizzaria.cardapio_doces.items() %}
-          <li><i data-lucide="pizza"></i><b>{{ sabor }}</b>: {{ ', '.join(ingredientes) }}</li>
+          <li>
+            <div class="ingredientes-pizza">
+              <i data-lucide="pizza"></i><b>{{ sabor }}</b>: {{ ', '.join(ingredientes) }}
+            </div>
+            <div class="buttons-pizza">
+              <button><i data-lucide="check"></i></button>
+              <button><i data-lucide="X"></i></button>
+            </div>
+          </li>
           {% endfor %}
         </ul>
       </div>
     </div>
   </div>
   <div class="pizzas tamanhos-section">
-    <h3>Tamanhos e adicionais</h3>
+    <h3>Tamanhos</h3>
     {% for tamanho in tamanhos_pizza %}
     <li class="tamanho-item">
       <i data-lucide="radius"></i>
       <b>{{ tamanho.descricao }}</b>: R$ {{ "%.2f"|format(tamanho.preco_base) }}
     </li>
     {% endfor %}
-    <li>
-      <i data-lucide="circle-plus"></i><b>Ingredientes adicionais são cobrados à parte.</b>
-    </li>
+    <h3>Ingredientes adicionais</h3>
+    <div class="ingredientes-adicionais">
+      <ul>
+        {% for sabor in pizzaria.ingredientes_extras %}
+        <li>
+          <div class="ingredientes-pizza">
+            <i data-lucide="circle-plus"></i><b>{{sabor}}</b>
+          </div>
+          <div class="buttons-pizza">
+            <button><i data-lucide="check"></i></button>
+            <button><i data-lucide="X"></i></button>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
   </div>
 
   <div class="pedidos-section">

@@ -88,6 +88,35 @@ li {
   border-radius: 5px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+
+li div.ingredientes-pizza {
+  display: flex;
+  align-items: center;
+}
+
+li div.buttons-pizza button {
+  visibility: hidden;
+  color: #fff;
+  background: green;
+  padding: 2px;
+  cursor: pointer;
+  border-radius: 5px;
+  border: none;
+  margin-left: 5px;
+}
+
+li div.buttons-pizza button:nth-child(2) {
+  background: red;
+}
+
+li div.buttons-pizza button:hover {
+  color: var(--secondary-color);
+}
+
+li:hover div.buttons-pizza button{
+  visibility: visible;
 }
 
 li:hover {
@@ -95,7 +124,6 @@ li:hover {
   color: #fff;
   transition: all 0.3s ease;
   scale: 1.01;
-  cursor: help;
 }
 
 li:hover svg {
@@ -114,14 +142,19 @@ li b {
   border-radius: 5px;
 }
 
+.ingredientes-adicionais ul {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 5px;
+}
+
 .tamanhos-section {
   margin-top: 20px;
-  width: fit-content;
 }
 
 .tamanho-item {
   margin-bottom: 5px;
-  width: fit-content;
+  width: max-content;
   display: inline-flex;
 }
 

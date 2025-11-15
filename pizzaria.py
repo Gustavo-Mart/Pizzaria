@@ -1,4 +1,4 @@
-from cliente import *
+from usuario import *
 from pedido import *
 from pizza import *
 from typing import List
@@ -36,6 +36,24 @@ class Pizzaria:
             "Nutella com Morango": ["Creme de avelã", "Morangos frescos"],
             "Miguelito": ["Chocolate branco", "Biscoito Oreo triturado"]
         }
+        self.ingredientes_extras = [
+            "Mussarela",
+            "Manjericão",
+            "Calabresa",
+            "Cebola",
+            "Presunto",
+            "Ovos",
+            "Parmesão",
+            "Provolone",
+            "Catupiry",
+            "Frango",
+            "Bacon",
+            "Carne seca",
+            "Brocolis",
+            "Alho frito",
+            "Mussarela de búfala",
+            "Tomate-cereja"
+        ]            
 
     def exibir_cardapio(self):
         print(f"\n\033[33m{'.'*30}")
