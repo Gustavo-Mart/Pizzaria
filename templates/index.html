@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="icon" href="{{ url_for('static', filename='pizza.ico') }}" type="image/x-icon">
+  <title>Pizzaria {{ pizzaria.nome }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+  <div class="main-container">
+    <h1>Bem-vindo à {{ pizzaria.nome }}!</h1>
+    <h2>Telefone: {{ pizzaria.telefone }}</h2>
+  </div>
+  <div class="cardapio-section">
+    <h2>Cardápio</h2>
+    <div class="pizzas">
+      <h3>Pizzas Salgadas</h3>
+      <div class="cardapio-grid">
+        <ul>
+          {% for sabor, ingredientes in pizzaria.cardapio.items() %}
+          <li><i data-lucide="pizza"></i><b>{{ sabor }}</b>: {{ ', '.join(ingredientes) }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <div class="pizzas">
+      <h3>Pizzas Doces</h3>
+      <div class="cardapio-grid">
+        <ul>
+          {% for sabor, ingredientes in pizzaria.cardapio_doces.items() %}
+          <li><i data-lucide="pizza"></i><b>{{ sabor }}</b>: {{ ', '.join(ingredientes) }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="pizzas tamanhos-section">
+    <h3>Tamanhos e adicionais</h3>
+    {% for tamanho in tamanhos_pizza %}
+    <li class="tamanho-item">
+      <i data-lucide="radius"></i>
+      <b>{{ tamanho.descricao }}</b>: R$ {{ "%.2f"|format(tamanho.preco_base) }}
+    </li>
+    {% endfor %}
+    <li>
+      <i data-lucide="circle-plus"></i><b>Ingredientes adicionais são cobrados à parte.</b>
+    </li>
+  </div>
+
+  <div class="pedidos-section">
+    <h2>PEDIDOS</h2>
+    <ul>
+      <li class="tamanho-item">{{ p1 }}</li>
+      <li class="tamanho-item">{{ p2 }}</li>
+    </ul>
+    <h3>Total do pedido: R$ {{ "%.2f"|format(total) }}</h3>
+  </div>
+
+</body>
+<script>
+  lucide.createIcons();
+</script>
+
+</html>

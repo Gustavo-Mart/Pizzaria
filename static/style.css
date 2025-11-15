@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Momo+Trust+Display&family=Momo+Trust+Sans:wght@200..800&display=swap');
+
+:root {
+  --primary-color: #cc6600;
+  --secondary-color: #006400;
+  --background-color: #d0c1a3;
+  --card-background-color: #fff8dc;
+  --card-background-transparent: #fff8dc8b;
+  --text-color: #333;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Momo Trust Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  background-color: var(--background-color);
+  padding: 1rem;
+  color: var(--text-color);
+}
+
+svg {
+  color: var(--primary-color);
+  background-color: transparent;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 800;
+  color: var(--primary-color);
+  width: fit-content;
+}
+
+h3 {
+  color: var(--secondary-color);
+  margin-bottom: 4px;
+  font-size: 1.3em;
+  border-bottom: 2px solid var(--secondary-color);
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+p {
+  line-height: 1.6;
+}
+
+.main-container {
+  max-width: fit-content;
+  margin: 0 auto;
+  background-color: var(--card-background-color);
+  padding: 20px;
+  display: grid;
+  justify-items: center;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.cardapio-section {
+  margin-top: 20px;
+}
+
+.cardapio-section h2 {
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+.cardapio-grid ul {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+li {
+  background-color: var(--card-background-color);
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+}
+
+li:hover {
+  background-color: var(--primary-color);
+  color: #fff;
+  transition: all 0.3s ease;
+  scale: 1.01;
+  cursor: help;
+}
+
+li:hover svg {
+  color: #fff;
+  scale: 1.01;
+}
+
+li b {
+  margin-left: 10px;
+}
+
+.pizzas{
+  margin-top: 20px;
+  padding: 10px;
+  background-color: var(--card-background-transparent);
+  border-radius: 5px;
+}
+
+.tamanhos-section {
+  margin-top: 20px;
+  width: fit-content;
+}
+
+.tamanho-item {
+  margin-bottom: 5px;
+  width: fit-content;
+  display: inline-flex;
+}
+
+.pedidos-section {
+  margin-top: 20px;
+}
+
+.pedidos-section h2 {
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
