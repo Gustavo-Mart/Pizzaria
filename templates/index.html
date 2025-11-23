@@ -10,17 +10,17 @@
 
 <body>
   <div class="main-container">
-    <h1> Bem-vindo à {{ pizzaria.nome }}!</h1>
-    <p>Telefone: {{ pizzaria.telefone }}</p>
+    <div class="name-header">
+      <i data-lucide="pizza"></i>
+      <h1>{{ pizzaria.nome }}</h1>
+    </div>
+    <div class="links-header">
+      <i data-lucide="lock"></i>
+      <a href="{{ url_for('admin') }}">Admin</a>
+    </div>
   </div>
 
   <div class="cardapio-section">
-    <div class="cardapio-header">
-      <i data-lucide="arrow-down"></i>
-      <h2>Faça o seu pedido</h2>
-      <i data-lucide="arrow-down"></i>
-    </div>
-    
     <div class="pizzas">
       <h3>Pizzas Salgadas</h3>
       <div class="cardapio-grid">

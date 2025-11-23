@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Admin - Pizzaria</title>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='font.css') }}">
+
+  <link rel="icon" href="{{ url_for('static', filename='pizza.ico') }}" type="image/x-icon">
+</head>
+
+<body>
+
+  <header class="admin-header">
+    <div class="header-content">
+      <div class="header-title">
+        <i data-lucide="shield-check"></i>
+        <h1>Painel Administrativo</h1>
+      </div>
+      <nav class="admin-nav">
+        <div class="links-header">
+          <i data-lucide="home"></i>
+          <a href="{{ url_for('index') }}">Voltar ao Site</a>
+        </div>
+        <div class="links-header">
+          <i data-lucide="log-out"></i>
+          <a href="{{ url_for('logout') }}">Sair</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="admin-main">
+    <section class="stats-section">
+      <div class="stat-card">
+        <div class="stat-icon dollar"><i data-lucide="dollar-sign"></i></div>
+        <div class="stat-content">
+          <p class="stat-label">Faturamento Total</p>
+          <p class="stat-value">R$ {{ "%.2f"|format(total_vendas) }}</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon orders"><i data-lucide="shopping-cart"></i></div>
+        <div class="stat-content">
+          <p class="stat-label">Total de Pedidos</p>
+          <p class="stat-value">{{ total_pedidos }}</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon customers"><i data-lucide="users"></i></div>
+        <div class="stat-content">
+          <p class="stat-label">Total de Clientes</p>
+          <p class="stat-value">{{ total_clientes }}</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-card">
+      <div class="card-header">
+        <h2><i data-lucide="shopping-bag"></i> Todos os Pedidos</h2>
+      </div>
+
+      {% if pizzaria.pedidos %}
+      <div class="pedidos-lista">
+        {% for pedido in pizzaria.pedidos | reverse %}
+        <div class="pedido-card" id="pedido-{{ pedido.id_pedido }}">
+          <div class="pedido-header-section">
+            <div class="pedido-info-top">
+              <span class="pedido-id">#{{ pedido.id_pedido }}</span>
+              <span class="pedido-total">R$ {{ "%.2f"|format(pedido.valor_total) }}</span>
+            </div>
+            <div class="pedido-actions">
+              <button class="btn-icon btn-edit" onclick="editarPedido({{ pedido.id_pedido }})" title="Editar Pedido">
+                <i data-lucide="edit-2"></i>
+              </button>
+              <button class="btn-icon btn-delete" onclick="confirmarExclusao({{ pedido.id_pedido }})"
+                title="Excluir Pedido">
+                <i data-lucide="trash-2"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="pedido-details">
+            <div class="detail-section">
+              <h4><i data-lucide="user"></i> Cliente</h4>
+              <p><strong>{{ pedido.cliente.nome }}</strong></p>
+              <p style="font-size: 0.9em; color: #666;">{{ pedido.cliente.telefone }}</p>
+            </div>
+
+            <div class="detail-section">
+              <h4><i data-lucide="map-pin"></i> Endereço</h4>
+              <p>{{ pedido.endereco_entrega }}</p>
+            </div>
+
+            <div class="detail-section">
+              <h4><i data-lucide="credit-card"></i> Pagamento</h4>
+              <p>{{ pedido.forma_pagamento.value }}</p>
+            </div>
+
+            <div class="detail-section">
+              <h4><i data-lucide="pizza"></i> Pizzas</h4>
+              <ul class="pizzas-pedido">
+                {% for pizza in pedido.pizzas %}
+                <li>
+                  <span class="pizza-nome">{{ pizza.sabor }} ({{ pizza.tamanho.descricao }})</span>
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <span class="pizza-preco">R$ {{ "%.2f"|format(pizza.calcular_preco()) }}</span>
+                    <button class="btn-remove-pizza" onclick="removerPizza({{ pedido.id_pedido }}, {{ loop.index0 }})"
+                      title="Remover Pizza">
+                      <i data-lucide="x" style="width: 14px; height: 14px;"></i>
+                    </button>
+                  </div>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-state">
+        <i data-lucide="inbox" style="color: #ccc;"></i>
+        <p>Nenhum pedido realizado ainda</p>
+      </div>
+      {% endif %}
+    </section>
+  </main>
+
+  <div class="modal-overlay" id="editModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Editar Pedido #<span id="editPedidoId"></span></h3>
+        <button class="modal-close" onclick="fecharModal()">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <form method="POST" action="{{ url_for('editar_pedido') }}" class="modal-content">
+        <input type="hidden" name="pedido_id" id="inputPedidoId">
+
+        <div class="form-group">
+          <label for="editNome">Nome do Cliente</label>
+          <input type="text" id="editNome" name="nome" required>
+        </div>
+
+        <div class="form-group">
+          <label for="editTelefone">Telefone</label>
+          <input type="tel" id="editTelefone" name="telefone" required>
+        </div>
+
+        <div class="form-group">
+          <label for="editEndereco">Endereço</label>
+          <input type="text" id="editEndereco" name="endereco" required>
+        </div>
+
+        <div class="form-group">
+          <label for="editPagamento">Forma de Pagamento</label>
+          <select id="editPagamento" name="forma_pagamento" required>
+            {% for forma in formas_pagamento %}
+            <option value="{{ forma.name }}">{{ forma.value }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" onclick="fecharModal()">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="deleteModal">
+    <div class="modal" style="max-width: 400px;">
+      <div class="modal-header">
+        <h3>Confirmar Exclusão</h3>
+        <button class="modal-close" onclick="fecharModalExclusao()">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <div class="modal-content">
+        <p>Tem certeza que deseja excluir o pedido #<span id="deletePedidoId" style="font-weight: bold;"></span>?</p>
+        <p class="warning-text" style="margin-top: 10px;">Esta ação não pode ser desfeita.</p>
+
+        <form method="POST" action="{{ url_for('excluir_pedido') }}">
+          <input type="hidden" name="pedido_id" id="inputDeletePedidoId">
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary" onclick="fecharModalExclusao()">Cancelar</button>
+            <button type="submit" class="btn btn-danger">Excluir Pedido</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script id="pedidos-json" type="application/json">
+    {{ pedidos_json | safe }}
+  </script>
+
+  <script>
+    lucide.createIcons();
+
+    // Lendo os dados do JSON embutido acima (evita erros de sintaxe no editor)
+    const pedidosData = JSON.parse(document.getElementById('pedidos-json').textContent);
+
+    // Editar Pedido
+    function editarPedido(pedidoId) {
+      const pedido = pedidosData.find(p => p.id === pedidoId);
+      if (!pedido) return;
+
+      document.getElementById('editPedidoId').textContent = pedidoId;
+      document.getElementById('inputPedidoId').value = pedidoId;
+      document.getElementById('editNome').value = pedido.cliente_nome;
+      document.getElementById('editTelefone').value = pedido.cliente_telefone;
+      document.getElementById('editEndereco').value = pedido.endereco;
+      document.getElementById('editPagamento').value = pedido.forma_pagamento;
+
+      document.getElementById('editModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function fecharModal() {
+      document.getElementById('editModal').classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    // Excluir Pedido
+    function confirmarExclusao(pedidoId) {
+      document.getElementById('deletePedidoId').textContent = pedidoId;
+      document.getElementById('inputDeletePedidoId').value = pedidoId;
+      document.getElementById('deleteModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function fecharModalExclusao() {
+      document.getElementById('deleteModal').classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    // Remover Pizza
+    function removerPizza(pedidoId, pizzaIndex) {
+      if (confirm('Deseja remover esta pizza do pedido?')) {
+
+        const formData = new URLSearchParams();
+        formData.append('pedido_id', pedidoId);
+        formData.append('pizza_index', pizzaIndex);
+
+        fetch('{{ url_for("remover_pizza") }}', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: formData
+        })
+          .then(response => {
+            if (response.ok) {
+              window.location.reload();
+            } else {
+              alert('Erro ao remover pizza. Tente novamente.');
+            }
+          })
+          .catch(error => {
+            console.error('Erro:', error);
+            alert('Erro de conexão.');
+          });
+      }
+    }
+
+    // Fechar modais clicando no fundo escuro
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+      overlay.addEventListener('click', function (e) {
+        if (e.target === this) {
+          this.classList.remove('active');
+          document.body.style.overflow = 'auto';
+        }
+      });
+    });
+  </script>
+
+</body>
+
+</html>

@@ -79,6 +79,46 @@
               {% endfor %}
             </select>
           </div>
+
+          <!-- Campos do Cartão (aparecem apenas quando seleciona cartão) -->
+          <div id="card-fields" class="card-fields" style="display: none;">
+            <div class="form-group">
+              <label for="card_number">
+                <i data-lucide="credit-card"></i>
+                Número do Cartão
+              </label>
+              <input type="text" id="card_number" name="card_number" placeholder="0000 0000 0000 0000" maxlength="19">
+            </div>
+
+            <div class="form-row">
+              <div class="form-group" style="margin-bottom: 1.2rem;">
+                <label for="card_name">
+                  <i data-lucide="user"></i>
+                  Nome no Cartão
+                </label>
+                <input type="text" id="card_name" name="card_name" placeholder="Nome como está no cartão"
+                  style="text-transform: uppercase;">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="card_expiry">
+                  <i data-lucide="calendar"></i>
+                  Validade
+                </label>
+                <input type="text" id="card_expiry" name="card_expiry" placeholder="MM/AA" maxlength="5">
+              </div>
+
+              <div class="form-group">
+                <label for="card_cvv">
+                  <i data-lucide="lock"></i>
+                  CVV
+                </label>
+                <input type="text" id="card_cvv" name="card_cvv" placeholder="123" maxlength="4">
+              </div>
+            </div>
+          </div>
         </section>
 
         <!-- Botões -->
@@ -141,6 +181,53 @@
 
   <script>
     lucide.createIcons();
+      const formaPagamentoSelect = document.getElementById('forma_pagamento');
+        const cardFields = document.getElementById('card-fields');
+        const cardInputs = cardFields.querySelectorAll('input');
+
+        formaPagamentoSelect.addEventListener('change', function () {
+          const valor = this.value;
+
+          if (valor.includes('Cartão') || valor.includes('Crédito') || valor.includes('Débito')) {
+            cardFields.style.display = 'block';
+            cardInputs.forEach(input => {
+              input.required = true;
+            });
+          } else {
+            cardFields.style.display = 'none';
+            cardInputs.forEach(input => {
+              input.required = false;
+              input.value = '';
+            });
+          }
+        });
+
+        const cardNumberInput = document.getElementById('card_number');
+        cardNumberInput.addEventListener('input', function (e) {
+          let value = e.target.value.replace(/\s/g, '');
+          let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+          e.target.value = formattedValue;
+        });
+
+        // Formatação da validade (MM/AA)
+        const cardExpiryInput = document.getElementById('card_expiry');
+        cardExpiryInput.addEventListener('input', function (e) {
+          let value = e.target.value.replace(/\D/g, '');
+          if (value.length >= 2) {
+            value = value.slice(0, 2) + '/' + value.slice(2, 4);
+          }
+          e.target.value = value;
+        });
+
+        const cardCvvInput = document.getElementById('card_cvv');
+        cardCvvInput.addEventListener('input', function (e) {
+          e.target.value = e.target.value.replace(/\D/g, '');
+        });
+        cardNumberInput.addEventListener('keypress', function (e) {
+          if (!/\d/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete') {
+            e.preventDefault();
+          }
+        });
   </script>
 </body>
 

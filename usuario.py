@@ -26,6 +26,7 @@ class Cliente(Usuario):
         self.nome = nome
         self.telefone = telefone
         self.endereco = endereco
+        self.pedidos = []
     
     def adicionar_pedido(self, pedido):
         self.pedidos.append(pedido)

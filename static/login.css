@@ -23,7 +23,11 @@
 
 body {
   font-family: "Momo Trust Sans", sans-serif;
-  background: var(--background-color);
+  background: url(noise.webp);
+  background-color: var(--background-color);
+  min-height: 100vh;
+  padding: 20px;
+  background-blend-mode: overlay;
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -76,10 +80,6 @@ body {
   margin-bottom: 2rem;
 }
 
-.form-group {
-  margin-bottom: 1.5rem;
-}
-
 .form-group label {
   display: flex;
   align-items: center;
@@ -105,13 +105,14 @@ body {
   font-size: 1rem;
   color: var(--text-secondary);
   font-family: inherit;
-  transition: all 0.2s ease;
+  margin-bottom: 1.5rem;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .form-group input:focus {
-  outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(204, 102, 0, 0.1);
+  outline: 3px dashed var(--text-secondary);
+  outline-offset: 2px;
 }
 
 .form-group input::placeholder {
@@ -132,7 +133,7 @@ body {
   text-transform: uppercase;
   letter-spacing: 2px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -148,6 +149,12 @@ body {
   background: var(--hover-color);
   transform: translateY(-2px);
   box-shadow: 0 5px 20px rgba(0, 100, 0, 0.3);
+}
+
+.btn-login:focus {
+  border-color: var(--primary-color);
+  outline: 3px dashed var(--text-secondary);
+  outline-offset: 2px;
 }
 
 .btn-login:active {
@@ -169,7 +176,7 @@ body {
   text-decoration: none;
   font-size: 1rem;
   font-weight: bold;
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .back-link i {
@@ -180,6 +187,12 @@ body {
 .back-link:hover {
   color: var(--hover-color);
   transform: translateX(-5px);
+}
+
+.back-link:focus {
+  border-color: var(--primary-color);
+  outline: 3px dashed var(--text-secondary);
+  outline-offset: 6px;
 }
 
 /* Responsivo */

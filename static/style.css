@@ -36,47 +36,61 @@ body {
   background: url(noise.webp);
   background-color: var(--background-color);
   min-height: 100vh;
-  padding: 20px;
   background-blend-mode: overlay;
 }
 
 /* Container Principal */
 .main-container {
-  max-width: 1400px;
-  height: fit-content;
-  margin: 0 auto 3rem;
-  padding: 3rem;
+  width: 100%;
+  height: 6rem;
   background-color: var(--border-color);
-  background-size: cover;
-  border: 1px solid var(--border-color);
-  text-align: center;
-  border-radius: 10px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-  justify-content: center;
-  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 6rem;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
 }
 
-.main-container h1 {
-  font-size: 3.5rem;
-  font-weight: normal;
-  letter-spacing: 3px;
+.name-header {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 1rem;
 }
 
-.main-container h1 i {
-  width: 50px;
-  height: 50px;
+.name-header h1 {
+  font-size: 2rem;
+  line-height: 1;
 }
 
-.main-container p {
-  font-size: 1.2rem;
-  color: var(--text-secondary);
-  letter-spacing: 1px;
+.name-header svg {
+  width: 50px;
+  height: 50px;
+  color: var(--text-color);
+}
+
+.links-header {
+  display: flex;
+  align-items: flex-end;
+  gap: .5rem;
+  width: fit-content;
+  cursor: pointer;
+}
+
+.links-header a {
+  color: var(--text-color);
+  text-decoration: none;
+  font-size: 1.3rem;
+  line-height: 1;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.links-header svg {
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.links-header:hover a,
+.links-header:hover svg {
+  color: var(--hover-color);
 }
 
 /* Seção de Cardápio */
@@ -84,7 +98,6 @@ body {
   max-width: 1400px;
   margin: 0 auto;
   display: flex;
-  gap: 2rem;
   flex-wrap: wrap;
 }
 
@@ -103,10 +116,12 @@ body {
   min-width: 100%;
   background: var(--card-background-color);
   padding: 2.5rem;
+  padding-top: 1rem;
   border: 1px solid var(--border-color);
   border-radius: 10px;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
   margin-bottom: 2rem;
+  margin-top: 4rem;
 }
 
 .pizzas h3 {
@@ -165,7 +180,7 @@ body {
 .cardapio-grid li {
   background: var(--dark-bg);
   border: 1px solid var(--border-color);
-  transition: all 0.2s ease-in-out;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   position: relative;
   padding: 1rem;
   border-radius: 5px;
@@ -233,6 +248,7 @@ body {
   letter-spacing: 1px;
   height: 38px;
   font-family: "Abordage", sans-serif;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .pizza-options select:hover,
@@ -250,11 +266,11 @@ body {
   border-radius: 5px;
 }
 
-
 /* Extras Tooltip */
 .extras-tooltip {
   position: relative;
   display: inline-block;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .extras-tooltip:hover {
@@ -266,7 +282,6 @@ body {
 }
 
 .extras-tooltip:focus {
-
   background: var(--primary-color);
   color: var(--dark-bg);
   outline: 3px dashed var(--text-secondary);
@@ -278,7 +293,7 @@ body {
   width: 38px;
   height: 38px;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   padding: 7px;
   border: 1px solid var(--border-color);
   background: var(--darker-bg);
@@ -305,6 +320,7 @@ body {
   z-index: 9999;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
   border-radius: 10px;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 /* Dropdown alinhado à direita quando próximo da borda direita */
@@ -366,7 +382,7 @@ body {
   padding: .5rem .9rem !important;
   gap: 0.8rem;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   background: var(--dark-bg);
   border: 1px solid var(--border-color);
   color: var(--text-secondary);
@@ -417,6 +433,7 @@ body {
   justify-content: center;
   min-width: 45px;
   height: 38px;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .buttons-pizza button:hover {
@@ -454,7 +471,7 @@ body {
   justify-content: center;
   cursor: pointer;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-  transition: all 0.2s ease-in-out;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   z-index: 9998;
 }
 
@@ -497,7 +514,7 @@ body {
   z-index: 9999;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .cart-overlay.active {
@@ -515,7 +532,7 @@ body {
   background: var(--card-background-color);
   box-shadow: -5px 0 25px rgba(0, 0, 0, 0.5);
   z-index: 10000;
-  transition: right 0.2s ease-in-out;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   display: flex;
   flex-direction: column;
   border-left: 3px solid var(--border-color);
@@ -546,7 +563,7 @@ body {
   border: none;
   cursor: pointer;
   padding: 0.5rem;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .cart-close:hover {
@@ -586,7 +603,7 @@ body {
   color: var(--text-secondary);
   line-height: 1.6;
   border-radius: 5px;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   font-size: 1.2rem;
 }
 
@@ -626,7 +643,7 @@ body {
   gap: 0.5rem;
   padding: 1rem;
   border: 2px solid var(--hover-color);
-  transition: all 0.2s ease-in-out;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   text-transform: uppercase;
   letter-spacing: 1px;
   font-size: 0.9rem;
@@ -648,7 +665,7 @@ body {
   gap: 0.5rem;
   padding: 1rem;
   border: 2px solid #ff4444;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   text-transform: uppercase;
   letter-spacing: 1px;
   font-size: 0.9rem;
