@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finalizar Pedido - Pizzaria</title>
+  <link rel="stylesheet" href="/static/checkout.css">
+  <link rel="stylesheet" href="/static/font.css">
+  <link rel="icon" href="{{ url_for('static', filename='pizza.ico') }}" type="image/x-icon">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="page-header">
+    <div class="header-content">
+      <i data-lucide="pizza"></i>
+      <h1>Finalizar Pedido</h1>
+    </div>
+  </header>
+
+  <!-- Container Principal -->
+  <div class="checkout-container">
+    <!-- Formulário -->
+    <div class="checkout-form">
+      <form method="POST" action="{{ url_for('finalizar_pedido') }}">
+        <!-- Dados Pessoais -->
+        <section class="form-section">
+          <div class="section-header">
+            <i data-lucide="user"></i>
+            <h2>Dados Pessoais</h2>
+          </div>
+
+          <div class="form-group">
+            <label for="nome">Nome Completo</label>
+            <input type="text" id="nome" name="nome" placeholder="Seu nome completo" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email">E-mail</label>
+              <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+            </div>
+
+            <div class="form-group">
+              <label for="telefone">Telefone</label>
+              <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000" required>
+            </div>
+          </div>
+        </section>
+
+        <!-- Endereço -->
+        <section class="form-section">
+          <div class="section-header">
+            <i data-lucide="map-pin"></i>
+            <h2>Endereço de Entrega</h2>
+          </div>
+
+          <div class="form-group">
+            <label for="endereco">Endereço Completo</label>
+            <input type="text" id="endereco" name="endereco" placeholder="Rua, número, bairro, cidade" required>
+          </div>
+        </section>
+
+        <!-- Pagamento -->
+        <section class="form-section">
+          <div class="section-header">
+            <i data-lucide="credit-card"></i>
+            <h2>Forma de Pagamento</h2>
+          </div>
+
+          <div class="form-group">
+            <label for="forma_pagamento">Selecione a forma de pagamento</label>
+            <select id="forma_pagamento" name="forma_pagamento" required>
+              <option value="" disabled selected>Escolha uma opção</option>
+              {% for forma in formas_pagamento %}
+              <option value="{{ forma }}">{{ forma }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </section>
+
+        <!-- Botões -->
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">
+            <i data-lucide="check-circle"></i>
+            Finalizar Pedido
+          </button>
+
+          <a href="{{ url_for('index') }}" class="btn btn-secondary">
+            <i data-lucide="arrow-left"></i>
+            Voltar ao Cardápio
+          </a>
+        </div>
+      </form>
+    </div>
+
+    <!-- Resumo do Pedido -->
+    <aside class="order-summary">
+      <div class="summary-header">
+        <i data-lucide="shopping-bag"></i>
+        <h3>Resumo do Pedido</h3>
+      </div>
+
+      <div class="summary-items">
+        {% if carrinho %}
+        {% for pizza in carrinho %}
+        <div class="summary-item">
+          <i class="item-icon" data-lucide="pizza"></i>
+          <div class="item-details">
+            <p class="item-name">{{ pizza.sabor }} ({{ pizza.tamanho.descricao }})</p>
+            <p class="item-extras">
+              {% if pizza.borda_recheada %}
+              com borda recheada
+              {% endif %}
+              {% if pizza.ingredientes %}
+              + {{ pizza.ingredientes|join(', ') }}
+              {% endif %}
+            </p>
+          </div>
+          <div class="item-price">R$ {{ "%.2f"|format(pizza.calcular_preco()) }}</div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p>Seu carrinho está vazio</p>
+        {% endif %}
+      </div>
+
+      <div class="summary-total">
+        <span>Total</span>
+        <span class="total-value">R$ {{ "%.2f"|format(total_carrinho) }}</span>
+      </div>
+
+      <div class="summary-footer">
+        <i data-lucide="clock"></i>
+        <p>Tempo estimado: <strong>40 minutos</strong></p>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+
+</html>

@@ -6,91 +6,285 @@
   <title>Pizzaria {{ pizzaria.nome }}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
   <div class="main-container">
-    <h1>Bem-vindo à {{ pizzaria.nome }}!</h1>
-    <h2>Telefone: {{ pizzaria.telefone }}</h2>
+    <h1> Bem-vindo à {{ pizzaria.nome }}!</h1>
+    <p>Telefone: {{ pizzaria.telefone }}</p>
   </div>
+
   <div class="cardapio-section">
-    <h2>Cardápio</h2>
+    <div class="cardapio-header">
+      <i data-lucide="arrow-down"></i>
+      <h2>Faça o seu pedido</h2>
+      <i data-lucide="arrow-down"></i>
+    </div>
+    
     <div class="pizzas">
       <h3>Pizzas Salgadas</h3>
       <div class="cardapio-grid">
+      <ul>
+        {% for sabor, ingredientes in pizzaria.cardapio.items() %}
+        <li>
+        <form action="{{ url_for('add_pizza') }}" method="POST" class="pizza-form">
+          <input type="hidden" name="sabor" value="{{ sabor }}">
+          <div class="ingredientes-pizza">
+          <i data-lucide="pizza"></i>
+          <div class="pizza-name">
+            <b>{{ sabor }}:</b>
+            <span>{{ ', '.join(ingredientes) }}</span>
+          </div>
+          </div>
+
+          <div class="pizza-options">
+          <select name="tamanho" required title="Escolha o tamanho">
+            <option value="Tamanho" disabled selected>Tamanho</option>
+            {% for t in tamanhos_disponiveis %}
+            <option value="{{ t.name }}">{{ t.descricao }}</option>
+            {% endfor %}
+          </select>
+
+          <div class="extras-tooltip" title="Adicionar ingredientes extras" tabindex="0">
+            <i data-lucide="plus-circle" class="extras-icon"></i>
+            <div class="extras-dropdown">
+        <li>Ingredientes Extras:</li>
         <ul>
-          {% for sabor, ingredientes in pizzaria.cardapio.items() %}
-          <li>
-            <div class="ingredientes-pizza">
-              <i data-lucide="pizza"></i><b>{{ sabor }}</b>: {{ ', '.join(ingredientes) }}
-            </div>
-            <div class="buttons-pizza">
-              <button><i data-lucide="check"></i></button>
-              <button><i data-lucide="X"></i></button>
-            </div>
-          </li>
-          {% endfor %}
+        {% for extra, preco in pizzaria.ingredientes_extras.items() %}
+        <li class="extra-item">
+          <input type="checkbox" name="ingredientes_extras" value="{{ extra }}">
+          {{ extra }} (+R${{"%.2f"|format(preco)}})
+        </li>
+        {% endfor %}
         </ul>
       </div>
     </div>
-    <div class="pizzas">
-      <h3>Pizzas Doces</h3>
-      <div class="cardapio-grid">
-        <ul>
-          {% for sabor, ingredientes in pizzaria.cardapio_doces.items() %}
-          <li>
-            <div class="ingredientes-pizza">
-              <i data-lucide="pizza"></i><b>{{ sabor }}</b>: {{ ', '.join(ingredientes) }}
-            </div>
-            <div class="buttons-pizza">
-              <button><i data-lucide="check"></i></button>
-              <button><i data-lucide="X"></i></button>
-            </div>
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
+    <div class="buttons-pizza">
+      <button type="submit" title="Adicionar ao pedido">
+        <i data-lucide="check"></i>
+      </button>
     </div>
   </div>
-  <div class="pizzas tamanhos-section">
-    <h3>Tamanhos</h3>
-    {% for tamanho in tamanhos_pizza %}
-    <li class="tamanho-item">
-      <i data-lucide="radius"></i>
-      <b>{{ tamanho.descricao }}</b>: R$ {{ "%.2f"|format(tamanho.preco_base) }}
-    </li>
-    {% endfor %}
-    <h3>Ingredientes adicionais</h3>
-    <div class="ingredientes-adicionais">
+  </form>
+  </li>
+  {% endfor %}
+  </ul>
+  </div>
+  </div>
+
+  <div class="pizzas">
+    <h3>Pizzas Doces</h3>
+    <div class="cardapio-grid">
       <ul>
-        {% for sabor in pizzaria.ingredientes_extras %}
+        {% for sabor, ingredientes in pizzaria.cardapio_doces.items() %}
         <li>
-          <div class="ingredientes-pizza">
-            <i data-lucide="circle-plus"></i><b>{{sabor}}</b>
-          </div>
-          <div class="buttons-pizza">
-            <button><i data-lucide="check"></i></button>
-            <button><i data-lucide="X"></i></button>
-          </div>
+          <form action="{{ url_for('add_pizza') }}" method="POST" class="pizza-form">
+            <input type="hidden" name="sabor" value="{{ sabor }}">
+            <div class="ingredientes-pizza">
+              <i data-lucide="pizza"></i>
+              <div class="pizza-name">
+                <b>{{ sabor }}:</b>
+                <span>{{ ', '.join(ingredientes) }}</span>
+              </div>
+            </div>
+            <div class="pizza-options">
+              <select name="tamanho" required title="Escolha o tamanho">
+                <option value="" disabled selected>Tamanho</option>
+                {% for t in tamanhos_disponiveis %}
+                <option value="{{ t.name }}">{{ t.descricao }}</option>
+                {% endfor %}
+              </select>
+              <div class="buttons-pizza">
+                <button type="submit" title="Adicionar ao pedido"><i data-lucide="check"></i></button>
+              </div>
+            </div>
+          </form>
         </li>
         {% endfor %}
       </ul>
     </div>
   </div>
-
-  <div class="pedidos-section">
-    <h2>PEDIDOS</h2>
-    <ul>
-      <li class="tamanho-item">{{ p1 }}</li>
-      <li class="tamanho-item">{{ p2 }}</li>
-    </ul>
-    <h3>Total do pedido: R$ {{ "%.2f"|format(total) }}</h3>
   </div>
 
+  <!-- Botão Flutuante do Carrinho -->
+  <div class="cart-button" id="cartButton">
+    <i data-lucide="shopping-cart"></i>
+    {% if carrinho %}
+    <span class="cart-badge">{{ carrinho|length }}</span>
+    {% endif %}
+  </div>
+
+  <!-- Overlay -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+
+  <!-- Menu Lateral do Carrinho -->
+  <div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+      <h2>PEDIDOS</h2>
+      <button class="cart-close" id="cartClose">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+
+    <div class="cart-content">
+      {% if not carrinho %}
+      <div class="cart-empty">
+        <p>Seu carrinho está vazio.</p>
+      </div>
+      {% else %}
+      <ul class="cart-items">
+        {% for pizza in carrinho %}
+        <li class="cart-item">{{ pizza }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+
+    {% if carrinho %}
+    <div class="cart-footer">
+      <div class="cart-total">
+        Total: R$ {{ "%.2f"|format(total) }}
+      </div>
+      <div class="cart-actions payment">
+        <a href="{{ url_for('checkout') }}" class="cart-payment">
+          <i data-lucide="wallet"></i> Ir para o Pagamento
+        </a>
+      </div>
+      <div class="cart-actions">
+        <a href="{{ url_for('clear_cart') }}" class="cart-clear">
+          <i data-lucide="trash-2"></i> Esvaziar Carrinho
+        </a>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+
+  <script>
+    lucide.createIcons();
+
+    // Controle do carrinho lateral
+    const cartButton = document.getElementById('cartButton');
+    const cartOverlay = document.getElementById('cartOverlay');
+    const cartSidebar = document.getElementById('cartSidebar');
+    const cartClose = document.getElementById('cartClose');
+
+    // Abrir carrinho
+    cartButton.addEventListener('click', () => {
+      cartOverlay.classList.add('active');
+      cartSidebar.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+
+    // Fechar carrinho
+    const closeCart = () => {
+      cartOverlay.classList.remove('active');
+      cartSidebar.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    };
+
+    cartClose.addEventListener('click', closeCart);
+    cartOverlay.addEventListener('click', closeCart);
+
+    // Prevenir fechar ao clicar dentro do sidebar
+    cartSidebar.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+
+    // Controle dos extras
+    document.addEventListener('DOMContentLoaded', function () {
+      const extrasTooltips = document.querySelectorAll('.extras-tooltip');
+
+      extrasTooltips.forEach(tooltip => {
+        const dropdown = tooltip.querySelector('.extras-dropdown');
+        let timeoutId;
+
+        // Função para ajustar posição do dropdown
+        const adjustDropdownPosition = () => {
+          const rect = tooltip.getBoundingClientRect();
+          const dropdownWidth = 320; // min-width do dropdown
+          const windowWidth = window.innerWidth;
+          const spaceOnRight = windowWidth - rect.right;
+
+          // Se não houver espaço suficiente à direita, alinhar à direita
+          if (spaceOnRight < dropdownWidth) {
+            tooltip.classList.add('align-right');
+          } else {
+            tooltip.classList.remove('align-right');
+          }
+        };
+
+        const showDropdown = () => {
+          clearTimeout(timeoutId);
+          adjustDropdownPosition();
+          tooltip.classList.add('extras-open');
+        };
+
+        const hideDropdown = () => {
+          timeoutId = setTimeout(() => {
+            tooltip.classList.remove('extras-open');
+          }, 100);
+        };
+
+        tooltip.addEventListener('mouseenter', showDropdown);
+        tooltip.addEventListener('mouseleave', hideDropdown);
+
+        if (dropdown) {
+          dropdown.addEventListener('mouseenter', showDropdown);
+          dropdown.addEventListener('mouseleave', hideDropdown);
+        }
+
+        const checkboxes = dropdown.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+          checkbox.addEventListener('click', (e) => {
+            clearTimeout(timeoutId);
+            e.stopPropagation();
+          });
+        });
+      });
+
+      // Recalcular posição ao redimensionar janela
+      window.addEventListener('resize', () => {
+        document.querySelectorAll('.extras-tooltip.extras-open').forEach(tooltip => {
+          const rect = tooltip.getBoundingClientRect();
+          const dropdownWidth = 320;
+          const windowWidth = window.innerWidth;
+          const spaceOnRight = windowWidth - rect.right;
+
+          if (spaceOnRight < dropdownWidth) {
+            tooltip.classList.add('align-right');
+          } else {
+            tooltip.classList.remove('align-right');
+          }
+        });
+      });
+
+      const extraItems = document.querySelectorAll('.extra-item');
+      extraItems.forEach(item => {
+        item.addEventListener('click', function (event) {
+          const checkbox = item.querySelector('input[type="checkbox"]');
+          if (event.target === checkbox) {
+            return;
+          }
+          checkbox.checked = !checkbox.checked;
+        });
+      });
+
+      // Salvar posição do scroll
+      document.querySelectorAll('.pizza-form').forEach(form => {
+        form.addEventListener('submit', function () {
+          sessionStorage.setItem('scrollPosition', window.scrollY);
+        });
+      });
+
+      const scrollPosition = sessionStorage.getItem('scrollPosition');
+      if (scrollPosition) {
+        window.scrollTo(0, parseInt(scrollPosition));
+        sessionStorage.removeItem('scrollPosition');
+      }
+    });
+  </script>
+
 </body>
-<script>
-  lucide.createIcons();
-</script>
 
 </html>

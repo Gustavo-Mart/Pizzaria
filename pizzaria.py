@@ -36,24 +36,24 @@ class Pizzaria:
             "Nutella com Morango": ["Creme de avelã", "Morangos frescos"],
             "Miguelito": ["Chocolate branco", "Biscoito Oreo triturado"]
         }
-        self.ingredientes_extras = [
-            "Mussarela",
-            "Manjericão",
-            "Calabresa",
-            "Cebola",
-            "Presunto",
-            "Ovos",
-            "Parmesão",
-            "Provolone",
-            "Catupiry",
-            "Frango",
-            "Bacon",
-            "Carne seca",
-            "Brocolis",
-            "Alho frito",
-            "Mussarela de búfala",
-            "Tomate-cereja"
-        ]            
+        self.ingredientes_extras = {
+            "Mussarela": 2.00,
+            "Calabresa": 2.00,
+            "Cebola": 2.00,
+            "Presunto": 2.00,
+            "Ovos": 2.00,
+            "Parmesão": 2.00,
+            "Provolone": 2.00,
+            "Catupiry": 2.00,
+            "Frango": 2.00,
+            "Bacon": 2.00,
+            "Carne seca": 2.00,
+            "Brocolis": 2.00,
+            "Alho frito": 2.00,
+            "Mussarela de búfala": 2.00,
+            "Tomate-cereja": 2.00,
+            "Borda Recheada": 5.00
+        }           
 
     def exibir_cardapio(self):
         print(f"\n\033[33m{'.'*30}")

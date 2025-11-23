@@ -22,10 +22,10 @@ class Cliente(Usuario):
     endereco: str
     pedidos: List
     
-    def __init__(self, nome, email, telefone, endereco):
-        super().__init__(nome, email, telefone)
+    def __init__(self, nome, telefone, endereco=""):
+        self.nome = nome
+        self.telefone = telefone
         self.endereco = endereco
-        self.pedidos = []
     
     def adicionar_pedido(self, pedido):
         self.pedidos.append(pedido)

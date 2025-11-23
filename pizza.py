@@ -34,13 +34,12 @@ class Pizza():
     
     def __str__(self):
         if self.borda_recheada == True:
-            borda = "com borda recheada"
+            borda = "Sim"
         else:
-            borda = "sem borda recheada"
+            borda = "Não"
 
         if self.ingredientes:
             ingredientes_str = f" + {', '.join(self.ingredientes)}" 
         else:
             ingredientes_str = ""
-        
-        return f"Pizza de {self.sabor} ({self.tamanho.descricao}) {borda}{ingredientes_str} - R$ {self.calcular_preco():.2f}" 
+        return f"Pizza de {self.sabor} ({self.tamanho.descricao}){ingredientes_str} - R$ {self.calcular_preco():.2f}" + f" | Borda Recheada: {borda}"

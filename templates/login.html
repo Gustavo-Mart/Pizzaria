@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Administrador</title>
+  <link rel="stylesheet" href="login.css">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+
+<body>
+  <div class="login-container">
+    <div class="login-card">
+      <div class="login-header">
+        <i data-lucide="shield-check"></i>
+        <h1>Login Admin</h1>
+        <p>Acesso ao Painel Administrativo</p>
+      </div>
+
+      <form class="login-form" method="POST">
+        <div class="form-group">
+          <label for="senha">
+            <i data-lucide="lock"></i>
+            Senha de Administrador
+          </label>
+          <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required autofocus>
+        </div>
+
+        <button type="submit" class="btn-login">
+          <i data-lucide="log-in"></i>
+          Entrar
+        </button>
+      </form>
+
+      <div class="login-footer">
+        <a href="index.html" class="back-link">
+          <i data-lucide="arrow-left"></i>
+          Voltar ao Cardápio
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+
+</html>

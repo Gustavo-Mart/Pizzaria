@@ -1,0 +1,199 @@
+@import url('https://fonts.googleapis.com/css2?family=Momo+Trust+Display&family=Momo+Trust+Sans:wght@200..800&display=swap');
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Variáveis */
+:root {
+  --primary-color: #cc6600;
+  --dark-bg: #fff8dc;
+  --darker-bg: #cc6600;
+  --card-background: #fff8dc8b;
+  --background-color: #d0c1a3;
+  --text-color: #f5f5f5;
+  --text-secondary: #1f1f1f;
+  --border-color: #cc6600;
+  --hover-color: #006400;
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+body {
+  font-family: "Momo Trust Sans", sans-serif;
+  background: var(--background-color);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Container Principal */
+.login-container {
+  width: 100%;
+  max-width: 500px;
+}
+
+.login-card {
+  background: var(--card-background);
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  padding: 3rem;
+  box-shadow: var(--shadow);
+}
+
+/* Header */
+.login-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.login-header i {
+  width: 70px;
+  height: 70px;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.login-header h1 {
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  font-weight: normal;
+  letter-spacing: 2px;
+  margin-bottom: 0.5rem;
+}
+
+.login-header p {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+/* Formulário */
+.login-form {
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+  font-weight: bold;
+  font-size: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.form-group label i {
+  width: 20px;
+  height: 20px;
+  color: var(--primary-color);
+}
+
+.form-group input {
+  width: 100%;
+  padding: 1rem;
+  background: var(--dark-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 5px;
+  font-size: 1rem;
+  color: var(--text-secondary);
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(204, 102, 0, 0.1);
+}
+
+.form-group input::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.6;
+}
+
+/* Botão */
+.btn-login {
+  width: 100%;
+  padding: 1.2rem;
+  background: var(--primary-color);
+  color: var(--text-color);
+  border: none;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+.btn-login i {
+  width: 24px;
+  height: 24px;
+}
+
+.btn-login:hover {
+  background: var(--hover-color);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(0, 100, 0, 0.3);
+}
+
+.btn-login:active {
+  transform: translateY(0);
+}
+
+/* Footer */
+.login-footer {
+  text-align: center;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--primary-color);
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.back-link i {
+  width: 20px;
+  height: 20px;
+}
+
+.back-link:hover {
+  color: var(--hover-color);
+  transform: translateX(-5px);
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .login-card {
+    padding: 2rem;
+  }
+
+  .login-header h1 {
+    font-size: 2rem;
+  }
+
+  .login-header i {
+    width: 50px;
+    height: 50px;
+  }
+}
