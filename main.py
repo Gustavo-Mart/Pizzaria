@@ -110,26 +110,18 @@ def finalizar_pedido():
     telefone = request.form.get('telefone')
     endereco = request.form.get('endereco')
     forma_pagamento_str = request.form.get('forma_pagamento')
-    
-    # --- CORREÇÃO: Validação dos dados ---
-    # Se algum desses campos for None ou vazio, não podemos criar o Cliente.
     if not nome or not telefone or not endereco:
-        # Você pode redirecionar de volta para o checkout ou home
         return redirect(url_for('checkout')) 
-    # -------------------------------------
 
     cart_data = session.get('cart', [])
     
     if not cart_data:
         return redirect(url_for('index'))
     
-    # Agora o Python sabe que 'nome', 'telefone' e 'endereco' não são None
     cliente = Cliente(nome, telefone, endereco)
     
-    # Verificar se cliente já existe
     cliente_existente = None
     for c in pizzaria_global.clientes:
-        # Comparar como string para evitar problemas de tipo
         if str(c.telefone) == str(telefone):
             cliente_existente = c
             break
@@ -152,9 +144,7 @@ def finalizar_pedido():
         
         pizzas_pedido.append(pizza)
     
-    # Converter forma de pagamento
     forma_pagamento = None
-    # Verifica se a string existe antes de iterar
     if forma_pagamento_str:
         for forma in FormaPagamento:
             if forma.value == forma_pagamento_str:
@@ -178,21 +168,25 @@ def finalizar_pedido():
 def admin():
     global admin_global, pizzaria_global
     
+    # Credenciais fixas
+    ADMIN_EMAIL = "admin@admin.com"
+    ADMIN_SENHA = "123456789"
+    
     if request.method == 'POST':
-        email = request.form.get('email')
-        senha = request.form.get('senha')
+        email_digitado = request.form.get('email')
+        senha_digitada = request.form.get('senha')
         
         # Criar admin se não existir
         if not admin_global:
-            admin_global = Administrador("Admin", email, "123456789", senha)
+            admin_global = Administrador("Admin", ADMIN_EMAIL, "123456789", ADMIN_SENHA)
         
-        # Verificar senha
-        if admin_global.verificar_senha(senha):
+        # Verificar se email e senha correspondem
+        if email_digitado == ADMIN_EMAIL and senha_digitada == ADMIN_SENHA:
             session['is_admin'] = True
-            session['admin_email'] = email
+            session['admin_email'] = ADMIN_EMAIL
             return redirect(url_for('admin_dashboard'))
         else:
-            return render_template('login.html', erro="Senha incorreta!")
+            return render_template('login.html', erro="Email ou senha incorretos!")
     
     # Se já estiver logado, redirecionar para dashboard
     if session.get('is_admin'):
@@ -287,14 +281,12 @@ def excluir_pedido():
 
     pedido_id = int(pedido_id_str)
     
-    # Encontrar e remover o pedido
     pedido_removido = None
     for i, pedido in enumerate(pizzaria_global.pedidos):
         if pedido.id_pedido == pedido_id:
             pedido_removido = pizzaria_global.pedidos.pop(i)
             break
     
-    # Remover o pedido da lista do cliente
     if pedido_removido:
         for cliente in pizzaria_global.clientes:
             if pedido_removido in cliente.pedidos:
@@ -320,7 +312,6 @@ def remover_pizza():
     pedido_id = int(pedido_id_str)
     pizza_index = int(pizza_index_str)
     
-    # Encontrar o pedido
     pedido = None
     for p in pizzaria_global.pedidos:
         if p.id_pedido == pedido_id:
@@ -328,13 +319,10 @@ def remover_pizza():
             break
     
     if pedido and 0 <= pizza_index < len(pedido.pizzas):
-        # Remover a pizza
         pedido.pizzas.pop(pizza_index)
         
-        # Recalcular o valor total
         pedido.valor_total = pedido._calcular_total()
         
-        # Se não houver mais pizzas, excluir o pedido
         if len(pedido.pizzas) == 0:
             pizzaria_global.pedidos.remove(pedido)
             for cliente in pizzaria_global.clientes:
@@ -357,4 +345,4 @@ def logout():
 if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port, debug=False)
+    app.run(host='0.0.0.0', port=port, debug=True)

@@ -20,6 +20,13 @@
         <p>Acesso ao Painel Administrativo</p>
       </div>
 
+      {% if erro %}
+      <div class="alert alert-error">
+        <i data-lucide="alert-circle"></i>
+        <span>{{ erro }}</span>
+      </div>
+      {% endif %}
+
       <form class="login-form" method="POST">
         <div class="form-group">
           <label for="email">
