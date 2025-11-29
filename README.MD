@@ -21,8 +21,8 @@ Python 3.x, Flask, HTML/CSS/JavaScript
 
 ```bash
 # Clone o repositório
-git clone https://github.com/seu-usuario/pizzaria-mama-mia.git
-cd pizzaria-mama-mia
+git clone https://github.com/Gustavo-Mart/Pizzaria.git
+cd Pizzaria
 
 # Instale dependências
 pip install flask
