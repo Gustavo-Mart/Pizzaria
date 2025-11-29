@@ -27,10 +27,14 @@ cd Pizzaria
 # Instale dependências
 pip install flask
 
+# Ative o venv (Virtual Environment)
+.venv\Scripts\activate
+
 # Execute
 python main.py
 
-# Acesse: http://localhost:5000
+# Entre no LocalHost
+http://localhost:5000
 ```
 
 ##  Acesso Admin
