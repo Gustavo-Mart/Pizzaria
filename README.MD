@@ -1,8 +1,10 @@
 #  Sistema de Pizzaria - Mama Mia
 
 ##  Integrantes
-- **[Seu Nome]** - [seu.email@exemplo.com]
-- **[Nome 2]** - [email2@exemplo.com]
+- Beatriz Mendes Chuva - chuva@unisantos.br
+- Gustavo Martins da Silva - gustavomsilva@unisantos.br
+- Jennyfer Forte Almeida Costa - jennyfercosta@unisantos.br
+
 
 ##  Descrição
 Sistema web para gerenciamento de pizzaria com pedidos online e painel administrativo. Desenvolvido em Python/Flask aplicando conceitos de POO (herança, polimorfismo, abstração, encapsulamento).
