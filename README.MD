@@ -7,14 +7,12 @@
 
 
 ##  Descrição
-Sistema web para gerenciamento de pizzaria com pedidos online e painel administrativo. Desenvolvido em Python/Flask aplicando conceitos de POO (herança, polimorfismo, abstração, encapsulamento).
+Sistema web para gerenciamento de pizzaria com pedidos online e painel administrativo. Desenvolvido em Python/Flask aplicando conceitos de POO (herança, polimorfismo, abstração, encapsulamento) o projeto automatiza operações desde o cardápio até a entrega. Oferece cardápio interativo com personalização de pizzas (tamanhos, ingredientes, borda recheada), carrinho de compras e checkout com múltiplas formas de pagamento (cartão, PIX, dinheiro), além de painel administrativo com gerenciamento de pedidos.
 
 **Funcionalidades:**
 - Cardápio interativo com personalização de pizzas
 - Carrinho de compras e checkout
 - Painel admin com estatísticas e gerenciamento de pedidos
-
-Sistema web para gerenciamento de pizzaria com pedidos online e painel administrativo. Desenvolvido em Python/Flask aplicando conceitos de POO (herança, polimorfismo, abstração, encapsulamento) o projeto automatiza operações desde o cardápio até a entrega. Oferece cardápio interativo com personalização de pizzas (tamanhos, ingredientes, borda recheada), carrinho de compras e checkout com múltiplas formas de pagamento (cartão, PIX, dinheiro), além de painel administrativo com gerenciamento de pedidos.
 
 ##  Tecnologias
 Python 3.x, Flask, HTML/CSS/JavaScript
